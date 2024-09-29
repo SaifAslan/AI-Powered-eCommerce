@@ -7,9 +7,8 @@ namespace api.Models
 {
     public class Colour
     {
-        public int Id { get; set; } // Unique identifier for the color
+        public int Id { get; set; } // Unique identifier for the colour
         public string Name { get; set; } // Example: "Red", "Blue"
-        public ICollection<ProductColour> ProductColours { get; set; } // Navigation property for many-to-many
     }
 
 }
