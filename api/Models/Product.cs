@@ -7,7 +7,6 @@ public class Product
     public string Description { get; set; } // Description of the product
     public decimal Price { get; set; } // Price of the product
     public int StockQuantity { get; set; } // Available stock for the product
-    public ICollection<ProductImage> Images { get; set; } // Collection of product images
     public bool IsFeatured { get; set; } // Flag for featured products
     public DateTime CreatedAt { get; set; } // Date when the product was added
     public DateTime UpdatedAt { get; set; } // Date of the last update
