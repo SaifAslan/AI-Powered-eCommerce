@@ -31,6 +31,8 @@ namespace api.Mappers
             };
         }
 
+
+
         public static ProductVariantDto ToDto(ProductVariant variant)
         {
             return new ProductVariantDto

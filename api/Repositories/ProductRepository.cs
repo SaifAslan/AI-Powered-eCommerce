@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Dtos;
+using api.Dtos.Product;
 using api.Helpers;
 using api.Interfaces;
 using api.Models;
@@ -17,9 +19,39 @@ namespace api.Repositories
         {
             _context = context;
         }
-        public Task<Product> AddProductAsync(Product product)
+        public async Task<RequestResult<CreateProductDto>> AddProductAsync(CreateProductDto createProductDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = new Product
+                {
+                    Name = createProductDto.Name,
+                    Description = createProductDto.Description,
+                    Price = createProductDto.Price,
+                    IsFeatured = createProductDto.IsFeatured,
+                    BrandId = createProductDto.BrandId,
+                    CategoryId = createProductDto.CategoryId,
+                    GenderId = createProductDto.GenderId,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+                    Variants = createProductDto.Variants.Select(variantDto => new ProductVariant
+                    {
+                        SKU = variantDto.SKU,
+                        SizeId = variantDto.SizeId,
+                        ColourId = variantDto.ColourId,
+                        StockQuantity = variantDto.StockQuantity,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    }).ToList()
+                };
+                await _context.AddAsync(product);
+                await _context.SaveChangesAsync();
+                return RequestResult<CreateProductDto>.Success(createProductDto);
+            }
+            catch (Exception e)
+            {
+                return RequestResult<CreateProductDto>.Failure(e);
+            }
         }
 
         public Task<ProductVariant> AddProductVariantAsync(ProductVariant variant)
@@ -37,7 +69,7 @@ namespace api.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Product> GetProductByIdAsync(string sku)
+        public Task<Product> GetProductByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -93,18 +125,14 @@ namespace api.Repositories
                     result = result.Where(p => p.Variants.Any(v =>
                         v.ColourId == query.ColourId.Value));
                 }
-                  if (query.SizeId.HasValue)
+                if (query.SizeId.HasValue)
                 {
                     result = result.Where(p => p.Variants.Any(v =>
                         v.SizeId == query.SizeId.Value));
                 }
 
-
-
-
                 var skipNumber = (query.PageNumber - 1) * query.PageSize;
                 result = result.Skip(skipNumber).Take(query.PageSize);
-
 
                 return await result.ToListAsync();
             }
@@ -114,6 +142,11 @@ namespace api.Repositories
             }
 
 
+        }
+
+        public async Task<bool> ProductExistsAsync(int id)
+        {
+            return await _context.Product.AnyAsync(p => p.Id == id);
         }
 
         public Task UpdateProductAsync(Product product)
