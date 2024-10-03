@@ -9,7 +9,6 @@ namespace api.Models
     {
         public int Id { get; set; } // Unique identifier for the material
         public string Name { get; set; } // Example: "Cotton", "Polyester"
-        public decimal Percentage { get; set; } // Example: 100.0
         public ICollection<ProductMaterial> ProductMaterials { get; set; } // Navigation property for many-to-many
     }
 

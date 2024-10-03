@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -11,11 +7,11 @@ namespace Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Material> Materials { get; set; }
-        public DbSet<Colour> Colours { get; set; }
-        public DbSet<Size> Sizes { get; set; }
-        public DbSet<ProductVariant> MyProperty { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Material> Material { get; set; }
+        public DbSet<Colour> Colour { get; set; }
+        public DbSet<Size> Size { get; set; }
+        public DbSet<ProductVariant> ProductVariant { get; set; }
 
         public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
         protected override void OnModelCreating(ModelBuilder builder)
@@ -63,7 +59,7 @@ namespace Data
             builder.Entity<ProductVariant>()
                 .HasOne(pv => pv.Colour)
                 .WithMany()
-                .HasForeignKey(pv => pv.ColorId);
+                .HasForeignKey(pv => pv.ColourId);
         }
     }
 }
