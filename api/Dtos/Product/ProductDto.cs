@@ -15,7 +15,7 @@ namespace api.Dtos.Product
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int BrandId { get; set; }
-        public int CategoryId { get; set; }
+        public int SubCategoryId { get; set; }
         public int GenderId { get; set; }
         public List<ProductVariantDto> Variants { get; set; }
     }

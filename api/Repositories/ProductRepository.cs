@@ -30,10 +30,15 @@ namespace api.Repositories
                     Price = createProductDto.Price,
                     IsFeatured = createProductDto.IsFeatured,
                     BrandId = createProductDto.BrandId,
-                    CategoryId = createProductDto.CategoryId,
+                    SubCategoryId = createProductDto.SubCategoryId,
                     GenderId = createProductDto.GenderId,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
+                    ProductMaterials = createProductDto.ProductMaterialDtos.Select(PMDto => new ProductMaterial
+                    {
+                        MaterialId = PMDto.MaterialId,
+                        Percentage = PMDto.Percentage,
+                    }).ToList(),
                     Variants = createProductDto.Variants.Select(variantDto => new ProductVariant
                     {
                         SKU = variantDto.SKU,
@@ -42,7 +47,9 @@ namespace api.Repositories
                         StockQuantity = variantDto.StockQuantity,
                         CreatedAt = DateTime.UtcNow,
                         UpdatedAt = DateTime.UtcNow
-                    }).ToList()
+                    }
+
+                    ).ToList()
                 };
                 await _context.AddAsync(product);
                 await _context.SaveChangesAsync();
@@ -84,9 +91,9 @@ namespace api.Repositories
                 {
                     result = result.Where(p => p.GenderId == query.GenderId);
                 }
-                if (query.CategoryId.HasValue)
+                if (query.SubCategoryId.HasValue)
                 {
-                    result = result.Where(p => p.CategoryId == query.CategoryId);
+                    result = result.Where(p => p.SubCategoryId == query.SubCategoryId);
                 }
                 if (query.BrandId.HasValue)
                 {

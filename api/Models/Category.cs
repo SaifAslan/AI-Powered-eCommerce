@@ -10,7 +10,6 @@ namespace api.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<SubCategory> SubCategories { get; set; }
-        public ICollection<Product> Products { get; set; } // One-to-many relationship
     }
 
     public class SubCategory

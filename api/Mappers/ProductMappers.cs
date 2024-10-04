@@ -19,7 +19,7 @@ namespace api.Mappers
                 CreatedAt = product.CreatedAt,
                 UpdatedAt = product.UpdatedAt,
                 BrandId = product.BrandId,
-                CategoryId = product.CategoryId,
+                SubCategoryId = product.SubCategoryId,
                 GenderId = product.GenderId,
                 Variants = product.Variants
                     .Where(v =>

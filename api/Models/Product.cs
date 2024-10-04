@@ -12,13 +12,13 @@ public class Product
 
     // Foreign Keys
     public int BrandId { get; set; } // Foreign key for the brand
-    public int CategoryId { get; set; } // Foreign key for the category
+    public int SubCategoryId { get; set; } // Foreign key for the category
     public int GenderId { get; set; } // Foreign key for the gender
 
 
     // Navigation properties
     public Brand Brand { get; set; } // Navigation property for Brand
-    public Category Category { get; set; } // Navigation property for Category
+    public SubCategory SubCategory { get; set; } // Navigation property for Category
     public Gender Gender { get; set; } // Navigation property for Gender
     public ICollection<ProductMaterial> ProductMaterials { get; set; } // Many-to-many for materials
     public ICollection<ProductVariant> Variants { get; set; }  // Variants of the product

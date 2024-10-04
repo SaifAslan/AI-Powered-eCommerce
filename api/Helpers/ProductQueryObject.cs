@@ -4,7 +4,7 @@ namespace api.Helpers
     public class ProductQueryObject
     {
         public int? SizeId { get; set; }
-        public int? CategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
         public int? ColourId { get; set; }
         public int? MaterialId { get; set; }
         public int? GenderId { get; set; }
