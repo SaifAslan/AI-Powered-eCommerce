@@ -10,8 +10,9 @@ namespace api.Dtos
         public T Data { get; set; }
         public bool IsSuccess { get; set; }
         public Exception Error { get; set; }
+        public int StatusCode { get; set; }
 
         public static RequestResult<T> Success(T data) => new RequestResult<T> { Data = data, IsSuccess = true };
-        public static RequestResult<T> Failure(Exception errorMessage) => new RequestResult<T> { IsSuccess = false, Error = errorMessage };
+        public static RequestResult<T> Failure(Exception error, int StatusCode) => new RequestResult<T> { IsSuccess = false, Error = error, StatusCode = StatusCode  };
     }
 }

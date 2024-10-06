@@ -57,7 +57,7 @@ namespace api.Repositories
             }
             catch (Exception e)
             {
-                return RequestResult<CreateProductDto>.Failure(e);
+                return RequestResult<CreateProductDto>.Failure(e, 500);
             }
         }
 
@@ -76,9 +76,19 @@ namespace api.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Product> GetProductByIdAsync(int id)
+        public async Task<RequestResult<Product>> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null)
+            {
+               return RequestResult<Product>.Failure(
+                    new Exception(
+                     "Product not found"
+                    )
+                    , 404);
+
+            }
+            return RequestResult<Product>.Success(product);
         }
 
         public async Task<List<Product>> GetProductsAsync(ProductQueryObject query)

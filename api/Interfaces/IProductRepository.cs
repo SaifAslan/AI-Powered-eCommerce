@@ -12,7 +12,7 @@ namespace api.Interfaces
     public interface IProductRepository
     {
         Task<List<Product>> GetProductsAsync(ProductQueryObject productQueryObject);
-        Task<Product> GetProductByIdAsync(int id);
+        Task<RequestResult<Product>> GetProductByIdAsync(int id);
         Task<RequestResult<CreateProductDto>> AddProductAsync(CreateProductDto product);
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(int id);
