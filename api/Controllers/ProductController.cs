@@ -26,6 +26,7 @@ namespace api.Controllers
                 var productsDto = products.Select(p => p.ToGetProductsDto(productQuery)).ToList();
 
                 return Ok(productsDto);
+                // return Ok();
             }
             catch (Exception e)
             {
@@ -54,6 +55,24 @@ namespace api.Controllers
                 return Ok("Product created successfully");
             }
             return StatusCode(500, result.Error);
+
+        }
+
+        [HttpGet("chatpot")]
+        public async Task<IActionResult> GetPorductsChatpot()
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            try
+            {
+                var products = await _productRepo.GetProductsChatpotAsync();
+                var productsDto = products.Select(p => p.ToGetProductsChatpotDto()).ToList();
+
+                return Ok(productsDto);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
 
         }
 

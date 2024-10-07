@@ -30,6 +30,14 @@ namespace Data
                     NormalizedName = "USER"
                 }
             };
+
+            builder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasPrecision(18, 2);  // Precision: 18, Scale: 2
+
+            builder.Entity<ProductMaterial>()
+                .Property(pm => pm.Percentage)
+                .HasPrecision(5, 2);  // Adjust precision and scale as necessary
             builder.Entity<IdentityRole>().HasData(roles);
 
             //ProductMaterial relationships

@@ -78,16 +78,22 @@ namespace api.Repositories
 
         public async Task<RequestResult<Product>> GetProductByIdAsync(int id)
         {
-            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Product.Include(p => p.Brand)
+            .Include(p => p.Gender)
+            .Include(p => p.Brand)
+            .Include(p => p.SubCategory).ThenInclude(sc => sc.Category)
+            .Include(p => p.Variants).ThenInclude(v => v.Colour)
+            .Include(p => p.Variants).ThenInclude(v => v.Size)
+            .FirstOrDefaultAsync(p => p.Id == id);
             if (product == null)
             {
-               return RequestResult<Product>.Failure(
-                    new Exception(
-                     "Product not found"
-                    )
-                    , 404);
-
+                return RequestResult<Product>.Failure(
+                     new Exception(
+                      "Product not found"
+                     )
+                     , 404);
             }
+
             return RequestResult<Product>.Success(product);
         }
 
@@ -159,6 +165,30 @@ namespace api.Repositories
             }
 
 
+        }
+
+        public async Task<List<Product>> GetProductsChatpotAsync()
+        {
+            try
+            {
+                var result = _context.Product.AsQueryable();
+                result = result
+                .Include(p => p.Variants.Where(v => v.StockQuantity > 0))
+                .ThenInclude(v => v.Size)
+                .Include(p => p.Variants.Where(v => v.StockQuantity > 0))
+                .ThenInclude(v => v.Colour)
+                .Include(p => p.SubCategory).ThenInclude(sc => sc.Category)
+                .Include(p => p.Gender)
+                .Include(p => p.Brand)
+                .Include(p => p.ProductMaterials).ThenInclude(pm => pm.Material);
+
+
+                return await result.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"An error occurred while getting products: {e.Message}");
+            }
         }
 
         public async Task<bool> ProductExistsAsync(int id)

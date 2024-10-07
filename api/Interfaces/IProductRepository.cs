@@ -13,6 +13,7 @@ namespace api.Interfaces
     {
         Task<List<Product>> GetProductsAsync(ProductQueryObject productQueryObject);
         Task<RequestResult<Product>> GetProductByIdAsync(int id);
+        Task<List<Product>> GetProductsChatpotAsync();
         Task<RequestResult<CreateProductDto>> AddProductAsync(CreateProductDto product);
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(int id);

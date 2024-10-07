@@ -12,9 +12,9 @@ namespace api.Dtos.Product
         public int ProductId { get; set; }
         public string SKU { get; set; }
         public int SizeId { get; set; }
-        public Size Size { get; set; }
+        public api.Models.Size Size { get; set; }
         public int ColourId { get; set; }
-        public Colour Colour { get; set; }
+        public api.Models.Colour Colour { get; set; }
         public int StockQuantity { get; set; }
     } 
 }
