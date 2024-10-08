@@ -4,14 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-python-dotenv = "*"
-langchain = "*"
-pinecone-client = "*"
-openai = "*"
+langchain-pinecone = "*"
 langchain-openai = "*"
 requests = "*"
-langchain-community = "*"
-langchain-pinecone = "*"
 
 [dev-packages]
 
