@@ -92,28 +92,33 @@ def custom_prompt(context, question,chat_history= []):
 # Function to run the LLM
 def run_llm(query: str, chat_history: list = []) -> dict:
     # Initialize embeddings and vector store
-    embeddings = init_embeddings()
-    docsearch = init_vector_store(embeddings, index_name)
+    try:
+        embeddings = init_embeddings()
+        docsearch = init_vector_store(embeddings, index_name)
     
-    # Initialize the chat model
-    chat = init_chat()
+        # Initialize the chat model
+        chat = init_chat()
     
-    # Initialize the conversational retrieval chain
-    qa = init_conversational_retrieval_chain(chat, docsearch)
+        # Initialize the conversational retrieval chain
+        qa = init_conversational_retrieval_chain(chat, docsearch)
 
-    documents = docsearch.similarity_search(query, k=5)  # Retrieve relevant documents
-    context = " ".join([doc.page_content for doc in documents])  # Join retrieved documents as context
+        documents = docsearch.similarity_search(query, k=5)  # Retrieve relevant documents
+        context = " ".join([doc.page_content for doc in documents])  # Join retrieved documents as context
 
-    prompt = custom_prompt(context, query,chat_history)  # Generate the custom prompt
+        prompt = custom_prompt(context, query,chat_history)  # Generate the custom prompt
     
-    # Run the chain with the custom prompt
-    result = qa({"question": prompt,         "chat_history": chat_history  # The ongoing conversation history, default to empty list
+     # Run the chain with the custom prompt
+        result = qa({"question": prompt, "chat_history": chat_history  # The ongoing conversation history, default to empty list
 })
-    # Run the conversational chain with the raw query
-    # result = qa({"question": query, "chat_history": chat_history})
-    if not result.get("source_documents"):
+        # Run the conversational chain with the raw query
+        # result = qa({"question": query, "chat_history": chat_history})
+        if not result.get("source_documents"):
             return {"answer": "I'm not sure. Please try rephrasing your question or provide more details."}
-    return result
+        return result
+    except Exception as e:
+        print(f"Error running LLM: {e}")
+        return {"answer": "Sorry, I can't help you at the moment please try again later"}
+
 
 if __name__ == "__main__":
     print(index_name)

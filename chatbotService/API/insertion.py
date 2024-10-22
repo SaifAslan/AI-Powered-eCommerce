@@ -57,6 +57,15 @@ def store_variants_in_pinecone(product):
         index.upsert([(str(variant['id']), embedding, metadata)])
 
 
+def fetch_store_products():
+    base_url = os.environ["PRODUCTS_URL"]
+    base_params = {}
+    response = requests.get(base_url, params=base_params)
+    products = response.json()
+
+    for product in products:
+        store_variants_in_pinecone(product)
+
 if __name__ == "__main__":
     base_url = os.environ["PRODUCTS_URL"]
     base_params = {}
